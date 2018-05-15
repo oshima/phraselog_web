@@ -1,4 +1,4 @@
-dist
+dist/main.js
 node_modules
 firebase.config.json
 package-lock.json
