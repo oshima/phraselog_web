@@ -9,10 +9,10 @@ import { requestFetchRecentPhrases } from '~/thunks/home';
 
 const Root = styled.div`
   padding: 24px 0;
+  overflow-x: hidden;
 `;
 
 const StyledHeadline = styled(Headline)`
-  margin-bottom: 8px;
   padding: 8px;
 `;
 
@@ -26,7 +26,7 @@ class Home extends React.Component {
 
     return (
       <Root>
-        <Grid container justify="center">
+        <Grid container spacing={8} justify="center">
           <Grid item xs={12} sm={10}>
             <StyledHeadline>Recent</StyledHeadline>
           </Grid>

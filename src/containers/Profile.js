@@ -20,6 +20,7 @@ import {
 
 const Root = styled.div`
   padding: 24px 0;
+  overflow-x: hidden;
 `;
 
 const UserRoot = styled.div`
@@ -33,7 +34,6 @@ const UserName = styled(Headline)`
 `;
 
 const TabsContainer = styled.div`
-  margin: 8px 0;
   background-color: ${grey[100]};
 `;
 
@@ -85,12 +85,14 @@ class Profile extends React.Component {
 
     return (
       <Root>
-        <Grid container justify="center">
+        <Grid container spacing={8} justify="center">
           <Grid item xs={12} sm={10}>
             <UserRoot>
               <Avatar src={user && user.photo_url} />
               <UserName>{user && user.display_name}</UserName>
             </UserRoot>
+          </Grid>
+          <Grid item xs={12} sm={10}>
             <TabsContainer>
               <Tabs
                 value={activeTab}
@@ -116,28 +118,20 @@ class Profile extends React.Component {
                     />
                   </Grid>
                 ))}
-              {activeTab === 0 &&
-                userPhrases.length === 0 && (
-                  <Grid item xs={12} md={6} lg={4}>
-                    <SkeletonPhrase>
-                      <Title>No phrases</Title>
-                    </SkeletonPhrase>
-                  </Grid>
-                )}
               {activeTab === 1 &&
                 userLikedPhrases.map(phrase => (
                   <Grid item xs={12} md={6} lg={4} key={phrase.id_string}>
                     <Phrase phrase={phrase} disableMenu />
                   </Grid>
                 ))}
-              {activeTab === 1 &&
-                userLikedPhrases.length === 0 && (
-                  <Grid item xs={12} md={6} lg={4}>
-                    <SkeletonPhrase>
-                      <Title>No phrases</Title>
-                    </SkeletonPhrase>
-                  </Grid>
-                )}
+              {((activeTab === 0 && userPhrases.length === 0) ||
+                (activeTab === 1 && userLikedPhrases.length === 0)) && (
+                <Grid item xs={12} md={6} lg={4}>
+                  <SkeletonPhrase>
+                    <Title>No phrases</Title>
+                  </SkeletonPhrase>
+                </Grid>
+              )}
             </Grid>
           </Grid>
         </Grid>
