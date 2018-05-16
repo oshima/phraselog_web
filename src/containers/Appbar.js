@@ -25,10 +25,8 @@ const Root = styled.div`
   z-index: 1;
 `;
 
-const NoUnderline = styled.span`
-  &:hover {
-    text-decoration: none;
-  }
+const TitleContainer = styled.div`
+  flex: 1;
 `;
 
 function Appbar({ signInUser }) {
@@ -37,11 +35,11 @@ function Appbar({ signInUser }) {
       <Link to="/">
         <Logo />
       </Link>
-      <Title flex>
+      <TitleContainer>
         <Link to="/">
-          <NoUnderline>phraselog</NoUnderline>
+          <Title>phraselog</Title>
         </Link>
-      </Title>
+      </TitleContainer>
       <IconButton
         disabled={!signInUser}
         color="primary"

@@ -8,6 +8,7 @@ import IconButton from 'material-ui/IconButton';
 import HeartOutline from 'mdi-material-ui/HeartOutline';
 import Clock from 'mdi-material-ui/Clock';
 import PhraseMenu from '~/components/PhraseMenu';
+import NoWrap from '~/components/NoWrap';
 import Title from '~/components/Title';
 import { toLocaleDateString } from '~/utils';
 
@@ -23,9 +24,8 @@ const UserArea = styled.div`
   margin-left: 8px;
 `;
 
-const InfoArea = styled.div`
+const InfoArea = styled(NoWrap)`
   margin-left: 12px;
-  overflow: hidden;
   flex: 1;
 `;
 
@@ -71,9 +71,7 @@ function Phrase({ phrase, disableUserLink, disableMenu, onRequestDelete }) {
       </UserArea>
       <InfoArea>
         <Link to={`/${phrase.id_string}`}>
-          <Title noWrap underline>
-            {phrase.title}
-          </Title>
+          <Title underline>{phrase.title}</Title>
         </Link>
         <Metadata>
           <SmallHeart />

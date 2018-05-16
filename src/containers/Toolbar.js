@@ -15,6 +15,7 @@ import Heart from 'mdi-material-ui/Heart';
 import HeartOutline from 'mdi-material-ui/HeartOutline';
 import ContentSave from 'mdi-material-ui/ContentSave';
 import Logo from '~/components/Logo';
+import NoWrap from '~/components/NoWrap';
 import Title from '~/components/Title';
 import TitleInput from '~/components/TitleInput';
 import IntervalDisplay from '~/components/IntervalDisplay';
@@ -48,6 +49,10 @@ const Root = styled.div`
   align-items: center;
   background-color: ${grey[50]};
   z-index: 1;
+`;
+
+const TitleContainer = styled(NoWrap)`
+  flex: 1;
 `;
 
 const Space = styled.span`
@@ -170,16 +175,18 @@ class Toolbar extends React.Component {
         <Link to="/">
           <Logo />
         </Link>
-        {isMyPhrase ? (
-          <TitleInput
-            disableUnderline
-            placeholder="Title *"
-            value={title}
-            onChange={this.handleChangeInput}
-          />
-        ) : (
-          <Title>{title}</Title>
-        )}
+        <TitleContainer>
+          {isMyPhrase ? (
+            <TitleInput
+              disableUnderline
+              placeholder="Title *"
+              value={title}
+              onChange={this.handleChangeInput}
+            />
+          ) : (
+            <Title>{title}</Title>
+          )}
+        </TitleContainer>
         <Space />
         <Hidden xsDown>
           <IconButton
