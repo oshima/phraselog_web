@@ -13,6 +13,7 @@ const SkeletonNote = styled.div`
 const Label = styled(Typography)`
   &&& {
     margin-left: 8px;
+    color: ${grey[800]};
     user-select: none;
   }
 `;
