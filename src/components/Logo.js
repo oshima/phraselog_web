@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import blue from 'material-ui/colors/blue';
-import lime from 'material-ui/colors/lime';
+import blue from '@material-ui/core/colors/blue';
+import lime from '@material-ui/core/colors/lime';
 
 const Root = styled.svg`
   display: block;

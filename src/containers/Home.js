@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import grey from 'material-ui/colors/grey';
-import Grid from 'material-ui/Grid';
+import grey from '@material-ui/core/colors/grey';
+import Grid from '@material-ui/core/Grid';
 import Headline from '~/components/Headline';
 import Phrase from '~/components/Phrase';
 import { requestFetchRecentPhrases } from '~/thunks/home';

@@ -1,7 +1,7 @@
 import React from 'react';
-import blue from 'material-ui/colors/blue';
-import lightBlue from 'material-ui/colors/lightBlue';
-import red from 'material-ui/colors/red';
+import blue from '@material-ui/core/colors/blue';
+import lightBlue from '@material-ui/core/colors/lightBlue';
+import red from '@material-ui/core/colors/red';
 import { NOTE_SIZE_PIXELS } from '~/constants';
 
 function Note({ note, drawing, sounding, error, ...others }) {

@@ -1,10 +1,10 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import grey from 'material-ui/colors/grey';
-import Avatar from 'material-ui/Avatar';
-import Typography from 'material-ui/Typography';
-import IconButton from 'material-ui/IconButton';
+import grey from '@material-ui/core/colors/grey';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import IconButton from '@material-ui/core/IconButton';
 import HeartOutline from 'mdi-material-ui/HeartOutline';
 import Clock from 'mdi-material-ui/Clock';
 import PhraseMenu from '~/components/PhraseMenu';

@@ -1,15 +1,15 @@
 import React from 'react';
 import styled from 'styled-components';
-import Button from 'material-ui/Button';
-import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
-import Menu, { MenuItem } from 'material-ui/Menu';
-import { ListItemText } from 'material-ui/List';
-import Dialog, {
-  DialogTitle,
-  DialogContent,
-  DialogActions
-} from 'material-ui/Dialog';
+import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogActions from '@material-ui/core/DialogActions';
 import DotsVertical from 'mdi-material-ui/DotsVertical';
 import Headline from '~/components/Headline';
 import Title from '~/components/Title';

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Typography from 'material-ui/Typography';
+import Typography from '@material-ui/core/Typography';
 import Title from '~/components/Title';
 
 const Root = styled.div`

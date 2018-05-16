@@ -1,9 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import grey from 'material-ui/colors/grey';
-import Avatar from 'material-ui/Avatar';
-import Typography from 'material-ui/Typography';
+import grey from '@material-ui/core/colors/grey';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
 import HeartOutline from 'mdi-material-ui/HeartOutline';
 import Clock from 'mdi-material-ui/Clock';
 import Update from 'mdi-material-ui/Update';

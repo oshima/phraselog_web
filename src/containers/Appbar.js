@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import grey from 'material-ui/colors/grey';
 import { Link } from 'react-router-dom';
-import IconButton from 'material-ui/IconButton';
-import Typography from 'material-ui/Typography';
+import grey from '@material-ui/core/colors/grey';
+import IconButton from '@material-ui/core/IconButton';
+import Typography from '@material-ui/core/Typography';
 import Pencil from 'mdi-material-ui/Pencil';
 import Logo from '~/components/Logo';
 import Title from '~/components/Title';

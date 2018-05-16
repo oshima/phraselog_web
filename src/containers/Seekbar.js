@@ -1,8 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
-import grey from 'material-ui/colors/grey';
-import lime from 'material-ui/colors/lime';
+import grey from '@material-ui/core/colors/grey';
+import lime from '@material-ui/core/colors/lime';
 import { NOTE_SIZE_PIXELS } from '~/constants';
 import Progress from '~/components/Progress';
 import { setX } from '~/actions/editor';

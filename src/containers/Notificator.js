@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Snackbar from 'material-ui/Snackbar';
+import Snackbar from '@material-ui/core/Snackbar';
 import { hideMessage } from '~/actions/notificator';
 
 function Notificator({ message, hideMessage }) {

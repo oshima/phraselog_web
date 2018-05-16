@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Input from 'material-ui/Input';
+import Input from '@material-ui/core/Input';
 
 const TitleInput = styled(Input).attrs({
   fullWidth: true

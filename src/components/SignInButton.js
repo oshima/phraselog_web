@@ -1,7 +1,9 @@
 import React from 'react';
 import styled from 'styled-components';
-import IconButton from 'material-ui/IconButton';
-import Dialog, { DialogTitle, DialogContent } from 'material-ui/Dialog';
+import IconButton from '@material-ui/core/IconButton';
+import Dialog from '@material-ui/core/Dialog';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import DialogContent from '@material-ui/core/DialogContent';
 import LoginVariant from 'mdi-material-ui/LoginVariant';
 import Twitter from 'mdi-material-ui/Twitter';
 import Google from 'mdi-material-ui/Google';

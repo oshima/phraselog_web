@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import grey from 'material-ui/colors/grey';
+import grey from '@material-ui/core/colors/grey';
 
 const Border = styled.div`
   position: sticky;
