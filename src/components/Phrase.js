@@ -65,13 +65,18 @@ function Phrase({ phrase, disableUserLink, disableMenu, onRequestDelete }) {
           <Avatar src={phrase.user.photo_url} />
         ) : (
           <Link to={`/users/${phrase.user.id_string}`}>
-            <Avatar src={phrase.user.photo_url} />
+            <Avatar
+              src={phrase.user.photo_url}
+              title={phrase.user.display_name}
+            />
           </Link>
         )}
       </UserArea>
       <InfoArea>
         <Link to={`/${phrase.id_string}`}>
-          <Title underline>{phrase.title}</Title>
+          <Title underline title={phrase.title}>
+            {phrase.title}
+          </Title>
         </Link>
         <Metadata>
           <SmallHeart />

@@ -79,12 +79,17 @@ function MetadataDisplay({ phrase }) {
       <Block maxWidth={'256px'}>
         <Row>
           <Link to={`/users/${phrase.user.id_string}`}>
-            <Avatar src={phrase.user.photo_url} />
+            <Avatar
+              src={phrase.user.photo_url}
+              title={phrase.user.display_name}
+            />
           </Link>
           <UserName>
             <SmallText>by</SmallText>
             <Link to={`/users/${phrase.user.id_string}`}>
-              <Title underline>{phrase.user.display_name}</Title>
+              <Title underline title={phrase.user.display_name}>
+                {phrase.user.display_name}
+              </Title>
             </Link>
           </UserName>
         </Row>

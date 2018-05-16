@@ -184,7 +184,7 @@ class Toolbar extends React.Component {
               onChange={this.handleChangeInput}
             />
           ) : (
-            <Title>{title}</Title>
+            <Title title={title}>{title}</Title>
           )}
         </TitleContainer>
         <Space />
