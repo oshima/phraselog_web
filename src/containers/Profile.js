@@ -87,13 +87,13 @@ class Profile extends React.Component {
     return (
       <Root>
         <Grid container spacing={8} justify="center">
-          <Grid item xs={12} sm={10}>
+          <Grid item xs={10}>
             <UserRoot>
               <Avatar src={user && user.photo_url} />
               <UserName>{user && user.display_name}</UserName>
             </UserRoot>
           </Grid>
-          <Grid item xs={12} sm={10}>
+          <Grid item xs={10}>
             <TabsContainer>
               <Tabs
                 value={activeTab}
@@ -106,11 +106,18 @@ class Profile extends React.Component {
               </Tabs>
             </TabsContainer>
           </Grid>
-          <Grid item xs={12} sm={10}>
+          <Grid item xs={10}>
             <Grid container spacing={8}>
               {activeTab === 0 &&
                 userPhrases.map(phrase => (
-                  <Grid item xs={12} md={6} lg={4} key={phrase.id_string}>
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    lg={4}
+                    xl={3}
+                    key={phrase.id_string}
+                  >
                     <Phrase
                       phrase={phrase}
                       disableUserLink
@@ -121,13 +128,20 @@ class Profile extends React.Component {
                 ))}
               {activeTab === 1 &&
                 userLikedPhrases.map(phrase => (
-                  <Grid item xs={12} md={6} lg={4} key={phrase.id_string}>
+                  <Grid
+                    item
+                    xs={12}
+                    md={6}
+                    lg={4}
+                    xl={3}
+                    key={phrase.id_string}
+                  >
                     <Phrase phrase={phrase} disableMenu />
                   </Grid>
                 ))}
               {((activeTab === 0 && userPhrases.length === 0) ||
                 (activeTab === 1 && userLikedPhrases.length === 0)) && (
-                <Grid item xs={12} md={6} lg={4}>
+                <Grid item xs={12} md={6} lg={4} xl={3}>
                   <SkeletonPhrase>
                     <Title>No phrases</Title>
                   </SkeletonPhrase>

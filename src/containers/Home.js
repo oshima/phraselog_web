@@ -27,13 +27,13 @@ class Home extends React.Component {
     return (
       <Root>
         <Grid container spacing={8} justify="center">
-          <Grid item xs={12} sm={10}>
+          <Grid item xs={10}>
             <StyledHeadline>Recent</StyledHeadline>
           </Grid>
-          <Grid item xs={12} sm={10}>
+          <Grid item xs={10}>
             <Grid container spacing={8}>
               {recentPhrases.map(phrase => (
-                <Grid item xs={12} md={6} lg={4} key={phrase.id_string}>
+                <Grid item xs={12} md={6} lg={4} xl={3} key={phrase.id_string}>
                   <Phrase phrase={phrase} disableMenu />
                 </Grid>
               ))}
