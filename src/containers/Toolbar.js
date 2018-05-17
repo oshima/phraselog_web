@@ -142,13 +142,14 @@ class Toolbar extends React.Component {
 
   canSave = () => {
     const { phrase, title, interval, notes, pointer } = this.props;
-    if (phrase)
-      return (
-        title !== phrase.title ||
-        interval !== phrase.interval ||
-        (notes.length > 0 && pointer > 0)
-      );
-    else return title !== '' && notes.length > 0;
+    const isBlank = title === '' || notes.length === 0;
+    if (phrase) {
+      const isChanged =
+        title !== phrase.title || interval !== phrase.interval || pointer > 0;
+      return !isBlank && isChanged;
+    } else {
+      return !isBlank;
+    }
   };
 
   render() {
