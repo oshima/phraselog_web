@@ -46,8 +46,11 @@ class SignInUserMenu extends React.Component {
         </IconButton>
         <Menu
           anchorEl={anchorEl}
+          getContentAnchorEl={null}
           open={Boolean(anchorEl)}
           onClose={this.handleClose}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
         >
           <MenuItem
             component={Link}

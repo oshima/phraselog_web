@@ -50,8 +50,11 @@ class PhraseMenu extends React.Component {
         />
         <Menu
           anchorEl={anchorEl}
+          getContentAnchorEl={null}
           open={Boolean(anchorEl)}
           onClose={this.handleCloseMenu}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          ntransformOrigin={{ vertical: 'top', horizontal: 'left' }}
         >
           <MenuItem
             onClick={this.handleClickDelete}
