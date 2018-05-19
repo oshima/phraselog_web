@@ -6,11 +6,11 @@ import { hideMessage } from '~/actions/notificator';
 function Notificator({ message, hideMessage }) {
   return (
     <Snackbar
-      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      message={message}
       open={Boolean(message)}
+      anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
       autoHideDuration={2500}
       onClose={hideMessage}
-      message={message}
     />
   );
 }

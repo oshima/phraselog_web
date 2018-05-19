@@ -7,7 +7,6 @@ const Root = styled.div`
   display: flex;
   padding: 12px 24px;
   align-items: center;
-  justify-content: center;
   border-radius: 1px;
   background-color: ${props => props.color};
   color: #fff;
@@ -17,7 +16,9 @@ const Root = styled.div`
   }
 `;
 
-const Label = styled(Title)`
+const Label = styled(Title).attrs({
+  bold: true
+})`
   margin-left: 8px;
   color: #fff;
 `;
@@ -26,7 +27,7 @@ function ProviderButton({ color, icon, children, ...others }) {
   return (
     <Root color={color} {...others}>
       {icon}
-      <Label bold>{children}</Label>
+      <Label>{children}</Label>
     </Root>
   );
 }

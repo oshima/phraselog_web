@@ -2,6 +2,8 @@ import styled from 'styled-components';
 import Input from '@material-ui/core/Input';
 
 const TitleInput = styled(Input).attrs({
+  placeholder: 'Title *',
+  disableUnderline: true,
   fullWidth: true
 })`
   &&& {

@@ -178,12 +178,7 @@ class Toolbar extends React.Component {
         </Link>
         <TitleContainer>
           {isMyPhrase ? (
-            <TitleInput
-              disableUnderline
-              placeholder="Title *"
-              value={title}
-              onChange={this.handleChangeInput}
-            />
+            <TitleInput value={title} onChange={this.handleChangeInput} />
           ) : (
             <Title title={title}>{title}</Title>
           )}
@@ -196,7 +191,7 @@ class Toolbar extends React.Component {
             children={<ChevronLeft />}
           />
           <Hidden smDown>
-            <IntervalDisplay interval={interval} />
+            <IntervalDisplay value={interval} />
           </Hidden>
           <IconButton
             disabled={interval >= 1}

@@ -27,8 +27,8 @@ const Root = styled.div`
 
 const Block = styled.div`
   padding: 12px 16px;
-  min-width: ${props => props.minWidth};
-  max-width: ${props => props.maxWidth};
+  min-width: ${props => props.minWidth && props.minWidth + 'px'};
+  max-width: ${props => props.maxWidth && props.maxWidth + 'px'};
   &:not(:last-child) {
     border-right: 1px solid ${grey[200]};
   }
@@ -76,7 +76,7 @@ const SmallText = styled(Typography)`
 function MetadataDisplay({ phrase }) {
   return (
     <Root>
-      <Block maxWidth={'256px'}>
+      <Block maxWidth={256}>
         <Row>
           <Link to={`/users/${phrase.user.id_string}`}>
             <Avatar
@@ -94,7 +94,7 @@ function MetadataDisplay({ phrase }) {
           </UserName>
         </Row>
       </Block>
-      <Block minWidth={'128px'}>
+      <Block minWidth={128}>
         <Row>
           <SmallHeart />
           <SmallText>{phrase.likes_count}</SmallText>
