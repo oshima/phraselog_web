@@ -168,7 +168,7 @@ export const redoOperation = () => (dispatch, getState) => {
 export const requestCreatePhrase = () => async (dispatch, getState) => {
   const { signInUser } = getState().auth;
   const { title, interval, notes } = getState().editor;
-  const data = { title, interval, notes };
+  let data = { title, interval, notes }; // temporary workaround...
   dispatch(setSaving(true));
   if (await createPhrase(data)) {
     dispatch(resetEditor());
