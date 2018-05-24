@@ -6,7 +6,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import IconButton from '@material-ui/core/IconButton';
 import HeartOutline from 'mdi-material-ui/HeartOutline';
-import Clock from 'mdi-material-ui/Clock';
+import ClockOutline from 'mdi-material-ui/ClockOutline';
 import PhraseMenu from '~/components/PhraseMenu';
 import NoWrap from '~/components/NoWrap';
 import Title from '~/components/Title';
@@ -42,7 +42,7 @@ const SmallHeart = styled(HeartOutline)`
   }
 `;
 
-const SmallClock = styled(Clock)`
+const SmallClock = styled(ClockOutline)`
   &&& {
     margin-left: 16px;
     font-size: 1rem;
