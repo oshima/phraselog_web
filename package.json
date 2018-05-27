@@ -10,6 +10,7 @@
   "dependencies": {
     "@material-ui/core": "^1.0.0",
     "babel-polyfill": "^6.26.0",
+    "current-device": "^0.7.8",
     "firebase": "^5.0.4",
     "mdi-material-ui": "^5.1.0",
     "react": "^16.4.0",

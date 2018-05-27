@@ -1,8 +1,10 @@
 import React from 'react';
-import { Router, Route, Switch } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import Appbar from '~/containers/Appbar';
 import Home from '~/containers/Home';
 import Profile from '~/containers/Profile';
+import Player from '~/containers/Player';
 import Toolbar from '~/containers/Toolbar';
 import Seekbar from '~/containers/Seekbar';
 import Chart from '~/containers/Chart';
@@ -11,7 +13,7 @@ import Space from '~/components/Space';
 import Border from '~/components/Border';
 import { getHistory } from '~/history';
 
-function Root() {
+function Root({ signInUser }) {
   return (
     <React.Fragment>
       <Router history={getHistory()}>
@@ -33,23 +35,33 @@ function Root() {
             </React.Fragment>
           </Route>
           <Route exact path="/new">
-            <React.Fragment>
-              <Toolbar />
-              <Space />
-              <Seekbar />
-              <Chart />
-            </React.Fragment>
+            {device.type === 'desktop' && signInUser ? (
+              <React.Fragment>
+                <Toolbar />
+                <Space />
+                <Seekbar />
+                <Chart />
+              </React.Fragment>
+            ) : (
+              <Redirect to="/" />
+            )}
           </Route>
           <Route exact path="/:id_string">
-            <React.Fragment>
-              <Toolbar />
-              <Space />
-              <Seekbar />
-              <Chart />
-            </React.Fragment>
-          </Route>
-          <Route>
-            <h1>Not found</h1>
+            {device.type === 'desktop' ? (
+              <React.Fragment>
+                <Toolbar />
+                <Space />
+                <Seekbar />
+                <Chart />
+              </React.Fragment>
+            ) : (
+              <React.Fragment>
+                <Appbar />
+                <Space />
+                <Border />
+                <Player />
+              </React.Fragment>
+            )}
           </Route>
         </Switch>
       </Router>
@@ -58,4 +70,6 @@ function Root() {
   );
 }
 
-export default Root;
+export default connect(state => ({
+  signInUser: state.auth.signInUser
+}))(Root);

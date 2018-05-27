@@ -1,9 +1,9 @@
-export const SET_USER = 'SET_USER';
-export const SET_USER_PHRASES = 'SET_USER_PHRASES';
-export const SET_USER_LIKED_PHRASES = 'SET_USER_LIKED_PHRASES';
-export const SET_ACTIVE_TAB = 'SET_ACTIVE_TAB';
+export const SET_USER = 'profile/setUser';
+export const SET_USER_PHRASES = 'profile/setUserPhrases';
+export const SET_USER_LIKED_PHRASES = 'profile/setUserLikedPhrases';
+export const SET_ACTIVE_TAB = 'profile/setActiveTab';
 
-export const RESET_PROFILE = 'RESET_PROFILE';
+export const RESET_PROFILE = 'profile/resetProfile';
 
 export function setUser(user) {
   return { type: SET_USER, payload: { user } };

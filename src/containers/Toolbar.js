@@ -24,7 +24,6 @@ import SignInUserMenu from '~/components/SignInUserMenu';
 import MetadataDisplay from '~/components/MetadataDisplay';
 import Loading from '~/components/Loading';
 import { TITLE_LENGTH_MAX, INTERVAL_MIN, INTERVAL_MAX } from '~/constants';
-import { getHistory } from '~/history';
 import { setTitle, setInterval, resetEditor } from '~/actions/editor';
 import {
   clearNotes,
@@ -75,7 +74,6 @@ class Toolbar extends React.Component {
       }
     } else {
       if (phrase) this.props.resetEditor();
-      if (!signInUser) getHistory().replace('/');
     }
   }
 
@@ -83,15 +81,11 @@ class Toolbar extends React.Component {
     const { params } = this.props.match;
     const { signInUser } = this.props;
     const { signInUser: prevSignInUser } = prevProps;
-    if (params.id_string) {
-      if (typeof prevSignInUser === 'undefined' && signInUser)
-        this.props.requestFetchUserLikedPhrase(
-          signInUser.id_string,
-          params.id_string
-        );
-    } else {
-      if (!signInUser) getHistory().replace('/');
-    }
+    if (params.id_string && typeof prevSignInUser === 'undefined' && signInUser)
+      this.props.requestFetchUserLikedPhrase(
+        signInUser.id_string,
+        params.id_string
+      );
   }
 
   handleChangeInput = e => {

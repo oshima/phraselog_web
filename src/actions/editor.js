@@ -1,27 +1,27 @@
-export const SET_PHRASE = 'SET_PHRASE';
-export const SET_TITLE = 'SET_TITLE';
-export const SET_INTERVAL = 'SET_INTERVAL';
-export const SET_LIKED = 'SET_LIKED';
+export const SET_PHRASE = 'editor/setPhrase';
+export const SET_TITLE = 'editor/setTitle';
+export const SET_INTERVAL = 'editor/setInterval';
+export const SET_LIKED = 'editor/setLiked';
 
-export const SET_X = 'SET_X';
-export const SET_WIDTH = 'SET_WIDTH';
-export const SET_ANCHOR = 'SET_ANCHOR';
-export const SET_CURSOR = 'SET_CURSOR';
-export const SET_NOTE = 'SET_NOTE';
-export const SET_NOTES = 'SET_NOTES';
+export const SET_X = 'editor/setX';
+export const SET_WIDTH = 'editor/setWidth';
+export const SET_ANCHOR = 'editor/setAnchor';
+export const SET_CURSOR = 'editor/setCursor';
+export const SET_NOTE = 'editor/setNote';
+export const SET_NOTES = 'editor/setNotes';
 
-export const APPEND_NOTES = 'APPEND_NOTES';
-export const REMOVE_NOTES = 'REMOVE_NOTES';
-export const RESET_NOTES = 'RESET_NOTES';
+export const APPEND_NOTES = 'editor/appendNotes';
+export const REMOVE_NOTES = 'editor/removeNotes';
+export const RESET_NOTES = 'editor/resetNotes';
 
-export const APPEND_OPERATION = 'APPEND_OPERATION';
-export const SET_POINTER = 'SET_POINTER';
+export const APPEND_OPERATION = 'editor/appendOperation';
+export const SET_POINTER = 'editor/setPointer';
 
-export const SET_DRAWING = 'SET_DRAWING';
-export const SET_PLAYING = 'SET_PLAYING';
-export const SET_SAVING = 'SET_SAVING';
+export const SET_DRAWING = 'editor/setDrawing';
+export const SET_PLAYING = 'editor/setPlaying';
+export const SET_SAVING = 'editor/setSaving';
 
-export const RESET_EDITOR = 'RESET_EDITOR';
+export const RESET_EDITOR = 'editor/resetEditor';
 
 export function setPhrase(phrase) {
   return { type: SET_PHRASE, payload: { phrase } };

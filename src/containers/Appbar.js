@@ -40,13 +40,15 @@ function Appbar({ signInUser }) {
           <Title>phraselog</Title>
         </Link>
       </TitleContainer>
-      <IconButton
-        disabled={!signInUser}
-        color="primary"
-        component={Link}
-        to="/new"
-        children={<Pencil />}
-      />
+      {device.type === 'desktop' && (
+        <IconButton
+          disabled={!signInUser}
+          color="primary"
+          component={Link}
+          to="/new"
+          children={<Pencil />}
+        />
+      )}
       {signInUser ? (
         <SignInUserMenu user={signInUser} />
       ) : typeof signInUser === 'undefined' ? (

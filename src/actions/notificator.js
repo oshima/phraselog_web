@@ -1,5 +1,5 @@
-export const SHOW_MESSAGE = 'SHOW_MESSAGE';
-export const HIDE_MESSAGE = 'HIDE_MESSAGE';
+export const SHOW_MESSAGE = 'notificator/showMessage';
+export const HIDE_MESSAGE = 'notificator/hideMessage';
 
 export function showMessage(message) {
   return { type: SHOW_MESSAGE, payload: { message } };

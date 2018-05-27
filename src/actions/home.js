@@ -1,5 +1,5 @@
-export const SET_RECENT_PHRASES = 'SET_RECENT_PHRASES';
-export const SET_POPULAR_PHRASES = 'SET_POPULAR_PHRASES';
+export const SET_RECENT_PHRASES = 'home/setRecentPhrases';
+export const SET_POPULAR_PHRASES = 'home/setPopularPhrases';
 
 export function setRecentPhrases(phrases) {
   return { type: SET_RECENT_PHRASES, payload: { phrases } };
