@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Note from '~/components/Note';
-import { CHART_HEIGHT, NOTES_COUNT_MAX, NOTE_SIZE_PIXELS } from '~/constants';
+import { CHART_HEIGHT, NOTES_COUNT_MAX, NOTE_SIZE } from '~/constants';
 import { equals, liesOn, overlapsWith } from '~/utils';
 import {
   startDrawNote,
@@ -49,8 +49,8 @@ class Chart extends React.PureComponent {
 
   getCursor = e => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / NOTE_SIZE_PIXELS) | 0;
-    const y = ((e.clientY - rect.top) / NOTE_SIZE_PIXELS) | 0;
+    const x = ((e.clientX - rect.left) / NOTE_SIZE) | 0;
+    const y = ((e.clientY - rect.top) / NOTE_SIZE) | 0;
     return { x, y };
   };
 
@@ -59,8 +59,8 @@ class Chart extends React.PureComponent {
 
     return (
       <Root
-        width={width * NOTE_SIZE_PIXELS}
-        height={CHART_HEIGHT * NOTE_SIZE_PIXELS}
+        width={width * NOTE_SIZE}
+        height={CHART_HEIGHT * NOTE_SIZE}
         onMouseDown={this.handleMouseDown}
         onMouseMove={this.handleMouseMove}
         onMouseUp={this.handleMouseUp}

@@ -13,7 +13,7 @@ const Root = styled.div`
 `;
 
 const StyledHeadline = styled(Headline)`
-  padding: 8px;
+  padding: 8px 0;
 `;
 
 class Home extends React.Component {

@@ -27,7 +27,7 @@ const Root = styled.div`
 const UserRoot = styled.div`
   display: flex;
   align-items: center;
-  padding: 8px;
+  padding: 8px 4px;
 `;
 
 const UserName = styled(Headline)`

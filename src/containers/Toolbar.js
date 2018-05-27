@@ -29,12 +29,12 @@ import {
   clearNotes,
   undoOperation,
   redoOperation,
-  requestCreateUserLikedPhrase,
-  requestFetchUserLikedPhrase,
-  requestDeleteUserLikedPhrase,
   requestCreatePhrase,
   requestFetchPhrase,
-  requestUpdatePhrase
+  requestUpdatePhrase,
+  requestCreateUserLikedPhrase,
+  requestFetchUserLikedPhrase,
+  requestDeleteUserLikedPhrase
 } from '~/thunks/editor';
 
 const Root = styled.div`
@@ -261,12 +261,12 @@ export default withRouter(
       clearNotes,
       undoOperation,
       redoOperation,
-      requestCreateUserLikedPhrase,
-      requestFetchUserLikedPhrase,
-      requestDeleteUserLikedPhrase,
       requestCreatePhrase,
       requestFetchPhrase,
-      requestUpdatePhrase
+      requestUpdatePhrase,
+      requestCreateUserLikedPhrase,
+      requestFetchUserLikedPhrase,
+      requestDeleteUserLikedPhrase
     }
   )(Toolbar)
 );

@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import styled from 'styled-components';
 import grey from '@material-ui/core/colors/grey';
 import lime from '@material-ui/core/colors/lime';
-import { NOTE_SIZE_PIXELS } from '~/constants';
+import { NOTE_SIZE } from '~/constants';
 import Progress from '~/components/Progress';
 import { setX } from '~/actions/editor';
 import { startPlayNotes } from '~/thunks/editor';
@@ -27,7 +27,7 @@ class Seekbar extends React.PureComponent {
 
   getX = e => {
     const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / NOTE_SIZE_PIXELS) | 0;
+    const x = ((e.clientX - rect.left) / NOTE_SIZE) | 0;
     return x;
   };
 
@@ -36,8 +36,8 @@ class Seekbar extends React.PureComponent {
 
     return (
       <Root
-        width={width * NOTE_SIZE_PIXELS}
-        height={NOTE_SIZE_PIXELS}
+        width={width * NOTE_SIZE}
+        height={NOTE_SIZE}
         playing={playing}
         onMouseDown={this.handleMouseDown}
       >

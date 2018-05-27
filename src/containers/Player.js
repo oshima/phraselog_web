@@ -4,21 +4,18 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import grey from '@material-ui/core/colors/grey';
 import Grid from '@material-ui/core/Grid';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Play from 'mdi-material-ui/Play';
 import Stop from 'mdi-material-ui/Stop';
 import Heart from 'mdi-material-ui/Heart';
 import HeartOutline from 'mdi-material-ui/HeartOutline';
-import ClockOutline from 'mdi-material-ui/ClockOutline';
-import Update from 'mdi-material-ui/Update';
 import Headline from '~/components/Headline';
-import Title from '~/components/Title';
+import PhraseAuthor from '~/components/PhraseAuthor';
+import PhraseMetadata from '~/components/PhraseMetadata';
 import MiniNote from '~/components/MiniNote';
-import { MINI_NOTE_SIZE_PIXELS } from '~/constants';
-import { liesOn, toLocaleDateString } from '~/utils';
-import { setX, resetPlayer } from '~/actions/player';
+import { MINI_NOTE_SIZE } from '~/constants';
+import { liesOn } from '~/utils';
+import { resetPlayer } from '~/actions/player';
 import {
   startPlayNotes,
   finishPlayNotes,
@@ -35,47 +32,6 @@ const Root = styled.div`
 
 const PhraseTitle = styled(Headline)`
   padding: 8px 0;
-`;
-
-const Block = styled.div`
-  display: flex;
-  align-items: center;
-`;
-
-const User = styled.div`
-  margin-left: 12px;
-`;
-
-const SmallHeart = styled(HeartOutline)`
-  &&& {
-    margin-right: 4px;
-    font-size: 1rem;
-    color: ${grey[700]};
-  }
-`;
-
-const SmallClock = styled(ClockOutline)`
-  &&& {
-    margin-left: 16px;
-    margin-right: 4px;
-    font-size: 1rem;
-    color: ${grey[700]};
-  }
-`;
-
-const SmallUpdate = styled(Update)`
-  &&& {
-    margin-left: 16px;
-    margin-right: 4px;
-    font-size: 1rem;
-    color: ${grey[700]};
-  }
-`;
-
-const SmallText = styled(Typography)`
-  &&& {
-    color: ${grey[700]};
-  }
 `;
 
 const MiniChartContainer = styled.div`
@@ -182,38 +138,21 @@ class Player extends React.Component {
             <PhraseTitle>{phrase.title}</PhraseTitle>
           </Grid>
           <Grid item xs={10}>
-            <Block>
-              <Avatar src={phrase.user.photo_url} />
-              <User>
-                <SmallText>by</SmallText>
-                <Title>{phrase.user.display_name}</Title>
-              </User>
-            </Block>
+            <PhraseAuthor phrase={phrase} />
           </Grid>
           <Grid item xs={10}>
-            <Block>
-              <SmallHeart />
-              <SmallText>{phrase.likes_count}</SmallText>
-              <SmallClock />
-              <SmallText>
-                {toLocaleDateString(new Date(phrase.created_at))}
-              </SmallText>
-              <SmallUpdate />
-              <SmallText>
-                {toLocaleDateString(new Date(phrase.updated_at))}
-              </SmallText>
-            </Block>
+            <PhraseMetadata phrase={phrase} />
           </Grid>
           <Grid item xs={10}>
             <MiniChartContainer>
               <MiniChart
-                width={width * MINI_NOTE_SIZE_PIXELS}
-                height={height * MINI_NOTE_SIZE_PIXELS}
+                width={width * MINI_NOTE_SIZE}
+                height={height * MINI_NOTE_SIZE}
                 viewBox={[
-                  minX * MINI_NOTE_SIZE_PIXELS,
-                  minY * MINI_NOTE_SIZE_PIXELS,
-                  width * MINI_NOTE_SIZE_PIXELS,
-                  height * MINI_NOTE_SIZE_PIXELS
+                  minX * MINI_NOTE_SIZE,
+                  minY * MINI_NOTE_SIZE,
+                  width * MINI_NOTE_SIZE,
+                  height * MINI_NOTE_SIZE
                 ].join(' ')}
               >
                 {phrase.notes.map((note, idx) => (
@@ -243,6 +182,7 @@ class Player extends React.Component {
                 fullWidth
                 variant="outlined"
                 color="secondary"
+                disabled={typeof isMyPhrase === 'undefined'}
                 onClick={this.handleClickHeart}
               >
                 {liked ? <Heart /> : <HeartOutline />}
@@ -269,7 +209,6 @@ export default withRouter(
       playing: state.player.playing
     }),
     {
-      setX,
       resetPlayer,
       startPlayNotes,
       finishPlayNotes,
