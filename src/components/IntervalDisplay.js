@@ -20,10 +20,10 @@ const Label = styled(Typography)`
 
 function IntervalDisplay({ value }) {
   return (
-    <React.Fragment>
+    <>
       <SkeletonNote />
       <Label>{value.toFixed(2)} sec</Label>
-    </React.Fragment>
+    </>
   );
 }
 

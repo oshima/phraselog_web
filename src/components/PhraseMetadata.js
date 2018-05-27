@@ -53,10 +53,10 @@ function PhraseMetadata({ phrase, hideUpdatedAt }) {
       <Text>{toLocaleDateString(new Date(phrase.created_at))}</Text>
       {!hideUpdatedAt &&
         phrase.created_at !== phrase.updated_at && (
-          <React.Fragment>
+          <>
             <StyledUpdate />
             <Text>{toLocaleDateString(new Date(phrase.updated_at))}</Text>
-          </React.Fragment>
+          </>
         )}
     </Root>
   );

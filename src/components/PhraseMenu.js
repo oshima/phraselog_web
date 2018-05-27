@@ -43,7 +43,7 @@ class PhraseMenu extends React.Component {
     const { anchorEl, open } = this.state;
 
     return (
-      <React.Fragment>
+      <>
         <IconButton
           onClick={this.handleClickButton}
           children={<DotsVertical />}
@@ -81,7 +81,7 @@ class PhraseMenu extends React.Component {
             />
           </DialogActions>
         </Dialog>
-      </React.Fragment>
+      </>
     );
   }
 }

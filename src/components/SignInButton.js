@@ -30,7 +30,7 @@ class SignInButton extends React.Component {
     const { open } = this.state;
 
     return (
-      <React.Fragment>
+      <>
         <IconButton
           color="primary"
           onClick={this.handleClick}
@@ -56,7 +56,7 @@ class SignInButton extends React.Component {
             />
           </DialogContent>
         </Dialog>
-      </React.Fragment>
+      </>
     );
   }
 }

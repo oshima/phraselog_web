@@ -15,58 +15,58 @@ import { getHistory } from '~/history';
 
 function Root({ signInUser }) {
   return (
-    <React.Fragment>
+    <>
       <Router history={getHistory()}>
         <Switch>
           <Route exact path="/">
-            <React.Fragment>
+            <>
               <Appbar />
               <Space />
               <Border />
               <Home />
-            </React.Fragment>
+            </>
           </Route>
           <Route exact path="/users/:id_string">
-            <React.Fragment>
+            <>
               <Appbar />
               <Space />
               <Border />
               <Profile />
-            </React.Fragment>
+            </>
           </Route>
           <Route exact path="/new">
             {device.type === 'desktop' && signInUser ? (
-              <React.Fragment>
+              <>
                 <Toolbar />
                 <Space />
                 <Seekbar />
                 <Chart />
-              </React.Fragment>
+              </>
             ) : (
               <Redirect to="/" />
             )}
           </Route>
           <Route exact path="/:id_string">
             {device.type === 'desktop' ? (
-              <React.Fragment>
+              <>
                 <Toolbar />
                 <Space />
                 <Seekbar />
                 <Chart />
-              </React.Fragment>
+              </>
             ) : (
-              <React.Fragment>
+              <>
                 <Appbar />
                 <Space />
                 <Border />
                 <Player />
-              </React.Fragment>
+              </>
             )}
           </Route>
         </Switch>
       </Router>
       <Notificator />
-    </React.Fragment>
+    </>
   );
 }
 

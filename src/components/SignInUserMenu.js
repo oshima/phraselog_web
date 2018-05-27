@@ -40,7 +40,7 @@ class SignInUserMenu extends React.Component {
     const { anchorEl } = this.state;
 
     return (
-      <React.Fragment>
+      <>
         <IconButton onClick={this.handleClick}>
           <SmallAvatar src={user.photo_url} />
         </IconButton>
@@ -63,7 +63,7 @@ class SignInUserMenu extends React.Component {
             children={<ListItemText>Sign out</ListItemText>}
           />
         </Menu>
-      </React.Fragment>
+      </>
     );
   }
 }
