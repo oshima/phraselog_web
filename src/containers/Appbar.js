@@ -37,7 +37,7 @@ function Appbar({ signInUser }) {
       </Link>
       <TitleContainer>
         <Link to="/">
-          <Title>phraselog</Title>
+          <Title>Phraselog</Title>
         </Link>
       </TitleContainer>
       {device.type === 'desktop' && (
