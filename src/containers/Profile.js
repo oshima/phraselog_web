@@ -4,9 +4,12 @@ import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 import grey from '@material-ui/core/colors/grey';
 import Grid from '@material-ui/core/Grid';
+import Hidden from '@material-ui/core/Hidden';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Avatar from '@material-ui/core/Avatar';
+import Pencil from 'mdi-material-ui/Pencil';
+import Heart from 'mdi-material-ui/Heart';
 import Headline from '~/components/Headline';
 import Title from '~/components/Title';
 import Phrase from '~/components/Phrase';
@@ -40,8 +43,8 @@ const TabsContainer = styled.div`
 
 const SkeletonPhrase = styled.div`
   padding: 12px 16px;
-  height: 76px;
-  border: 2px dotted ${grey[200]};
+  height: 74px;
+  border: 1px dashed ${grey[300]};
 `;
 
 class Profile extends React.Component {
@@ -101,8 +104,22 @@ class Profile extends React.Component {
                 textColor={activeTab === 0 ? 'primary' : 'secondary'}
                 onChange={this.handleChange}
               >
-                <Tab label="Phrases" />
-                <Tab label="Liked" />
+                <Tab
+                  label={
+                    <>
+                      <Hidden mdUp children={<Pencil />} />
+                      <Hidden smDown children={'Phrases'} />
+                    </>
+                  }
+                />
+                <Tab
+                  label={
+                    <>
+                      <Hidden mdUp children={<Heart />} />
+                      <Hidden smDown children={'Liked'} />
+                    </>
+                  }
+                />
               </Tabs>
             </TabsContainer>
           </Grid>

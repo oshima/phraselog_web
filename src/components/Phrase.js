@@ -10,6 +10,7 @@ import PhraseMenu from '~/components/PhraseMenu';
 
 const Root = styled.div`
   display: flex;
+  height: 74px;
   padding: 12px 8px;
   align-items: center;
   border: 1px solid ${grey[200]};
