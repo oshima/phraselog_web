@@ -18,6 +18,7 @@ export const APPEND_OPERATION = 'editor/appendOperation';
 export const SET_POINTER = 'editor/setPointer';
 
 export const SET_DRAWING = 'editor/setDrawing';
+export const SET_HOVERING = 'editor/setHovering';
 export const SET_PLAYING = 'editor/setPlaying';
 export const SET_SAVING = 'editor/setSaving';
 
@@ -85,6 +86,10 @@ export function setPointer(pointer) {
 
 export function setDrawing(drawing) {
   return { type: SET_DRAWING, payload: { drawing } };
+}
+
+export function setHovering(hovering) {
+  return { type: SET_HOVERING, payload: { hovering } };
 }
 
 export function setPlaying(playing) {

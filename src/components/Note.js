@@ -1,6 +1,6 @@
 import React from 'react';
-import blue from '@material-ui/core/colors/blue';
-import lightBlue from '@material-ui/core/colors/lightBlue';
+import teal from '@material-ui/core/colors/teal';
+import lime from '@material-ui/core/colors/lime';
 import red from '@material-ui/core/colors/red';
 import { NOTE_SIZE } from '~/constants';
 
@@ -12,7 +12,7 @@ function Note({ note, drawing, sounding, error, ...others }) {
       width={note.length * NOTE_SIZE}
       height={NOTE_SIZE}
       opacity={drawing && 0.6}
-      fill={error ? red[500] : sounding ? lightBlue[300] : blue[500]}
+      fill={error ? red[400] : sounding ? lime[300] : teal[400]}
       {...others}
     />
   );

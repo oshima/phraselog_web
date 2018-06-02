@@ -24,7 +24,12 @@ import SignInUserMenu from '~/components/SignInUserMenu';
 import MetadataDisplay from '~/components/MetadataDisplay';
 import Loading from '~/components/Loading';
 import { TITLE_LENGTH_MAX, INTERVAL_MIN, INTERVAL_MAX } from '~/constants';
-import { setTitle, setInterval, resetEditor } from '~/actions/editor';
+import {
+  setTitle,
+  setInterval,
+  setHovering,
+  resetEditor
+} from '~/actions/editor';
 import {
   clearNotes,
   undoOperation,
@@ -43,8 +48,8 @@ const Root = styled.div`
   left: 0;
   right: 0;
   top: 0;
-  height: 48px;
-  padding: 0 8px;
+  height: 56px;
+  padding: 4px 8px;
   align-items: center;
   background-color: ${grey[50]};
   z-index: 1;
@@ -87,6 +92,14 @@ class Toolbar extends React.Component {
         params.id_string
       );
   }
+
+  handleMouseEnter = () => {
+    this.props.setHovering(true);
+  };
+
+  handleMouseLeave = () => {
+    this.props.setHovering(false);
+  };
 
   handleChangeInput = e => {
     const title = e.currentTarget.value;
@@ -166,7 +179,10 @@ class Toolbar extends React.Component {
     const isMyPhrase = this.isMyPhrase();
 
     return (
-      <Root>
+      <Root
+        onMouseEnter={this.handleMouseEnter}
+        onMouseLeave={this.handleMouseLeave}
+      >
         <Link to="/">
           <Logo />
         </Link>
@@ -257,6 +273,7 @@ export default withRouter(
     {
       setTitle,
       setInterval,
+      setHovering,
       resetEditor,
       clearNotes,
       undoOperation,

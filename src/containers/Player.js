@@ -35,9 +35,7 @@ const PhraseTitle = styled(Headline)`
 `;
 
 const MiniChartContainer = styled.div`
-  margin-top: 8px;
-  border: 1px solid ${grey[200]};
-  border-radius: 1px;
+  margin: 16px 0;
   overflow: scroll;
 `;
 

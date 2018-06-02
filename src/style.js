@@ -12,7 +12,7 @@ export function setCssBaseline() {
     }
     body {
       margin: 0;
-      background-color: #fff;
+      background-color: #fafafa;
     }
     a {
       color: inherit;

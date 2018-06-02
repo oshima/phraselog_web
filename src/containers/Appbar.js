@@ -18,8 +18,8 @@ const Root = styled.div`
   left: 0;
   right: 0;
   top: 0;
-  height: 48px;
-  padding: 0 8px;
+  height: 56px;
+  padding: 4px 8px;
   align-items: center;
   background-color: ${grey[50]};
   z-index: 1;

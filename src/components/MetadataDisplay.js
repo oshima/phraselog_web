@@ -9,12 +9,11 @@ const Root = styled.div`
   align-items: center;
   bottom: 0;
   right: 0;
+  margin: 8px;
   padding: 12px 16px;
-  min-width: 192px;
-  border-top: 1px solid ${grey[200]};
-  border-left: 1px solid ${grey[200]};
-  border-radius: 1px;
-  background-color: rgba(255, 255, 255, 0.97);
+  min-width: 224px;
+  background-color: #fffffff5;
+  border: 1px solid ${grey[200]};
   user-select: none;
   z-index: 1;
 `;

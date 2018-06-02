@@ -2,15 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Router, Switch, Route, Redirect } from 'react-router-dom';
 import Appbar from '~/containers/Appbar';
+import Toolbar from '~/containers/Toolbar';
+import Seekbar from '~/containers/Seekbar';
 import Home from '~/containers/Home';
 import Profile from '~/containers/Profile';
 import Player from '~/containers/Player';
-import Toolbar from '~/containers/Toolbar';
-import Seekbar from '~/containers/Seekbar';
 import Chart from '~/containers/Chart';
 import Notificator from '~/containers/Notificator';
 import Space from '~/components/Space';
-import Border from '~/components/Border';
 import { getHistory } from '~/history';
 
 function Root({ signInUser }) {
@@ -22,7 +21,6 @@ function Root({ signInUser }) {
             <>
               <Appbar />
               <Space />
-              <Border />
               <Home />
             </>
           </Route>
@@ -30,7 +28,6 @@ function Root({ signInUser }) {
             <>
               <Appbar />
               <Space />
-              <Border />
               <Profile />
             </>
           </Route>
@@ -58,7 +55,6 @@ function Root({ signInUser }) {
               <>
                 <Appbar />
                 <Space />
-                <Border />
                 <Player />
               </>
             )}

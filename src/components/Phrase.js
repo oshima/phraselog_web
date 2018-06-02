@@ -13,8 +13,8 @@ const Root = styled.div`
   height: 74px;
   padding: 12px 8px;
   align-items: center;
+  background-color: #fff;
   border: 1px solid ${grey[200]};
-  border-radius: 1px;
 `;
 
 const Left = styled.div`

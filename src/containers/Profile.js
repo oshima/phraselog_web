@@ -38,7 +38,7 @@ const UserName = styled(Headline)`
 `;
 
 const TabsContainer = styled.div`
-  background-color: ${grey[100]};
+  background-color: ${grey[200]};
 `;
 
 const SkeletonPhrase = styled.div`

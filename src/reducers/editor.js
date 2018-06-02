@@ -16,6 +16,7 @@ import {
   APPEND_OPERATION,
   SET_POINTER,
   SET_DRAWING,
+  SET_HOVERING,
   SET_PLAYING,
   SET_SAVING,
   RESET_EDITOR
@@ -35,6 +36,7 @@ const initialState = {
   operations: [],
   pointer: 0,
   drawing: false,
+  hovering: false,
   playing: false,
   saving: false
 };
@@ -82,6 +84,8 @@ export default function editorReducer(state = initialState, action) {
       return { ...state, pointer: action.payload.pointer };
     case SET_DRAWING:
       return { ...state, drawing: action.payload.drawing };
+    case SET_HOVERING:
+      return { ...state, hovering: action.payload.hovering };
     case SET_PLAYING:
       return { ...state, playing: action.payload.playing };
     case SET_SAVING:
