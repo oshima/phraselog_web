@@ -9,4 +9,3 @@ export const CHART_WIDTH_DEFAULT = 128;
 export const CHART_WIDTH_DELTA = 32;
 export const CHART_WIDTH_MAX = 640;
 export const CHART_HEIGHT = 48;
-export const FREQUENCY_BASE = 130.81; // C3

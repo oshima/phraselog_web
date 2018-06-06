@@ -1,3 +1,4 @@
+dist/audio
 dist/main.js
 node_modules
 firebase.config.json

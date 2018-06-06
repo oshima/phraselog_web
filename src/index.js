@@ -8,6 +8,7 @@ import { Provider } from 'react-redux';
 import rootReducer from '~/reducers';
 import Root from '~/containers';
 import { setupAuth } from '~/auth';
+import { setupAudio } from '~/audio';
 import { setCssBaseline } from '~/style';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
@@ -19,7 +20,7 @@ const App = () => (
 );
 
 setupAuth(store.dispatch);
-
+setupAudio();
 setCssBaseline();
 
 render(<App />, document.getElementById('app'));
