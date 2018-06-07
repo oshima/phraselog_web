@@ -5,22 +5,29 @@ compressor.connect(audioCtx.destination);
 const pianoBuffers = new Map();
 const memory = new Map();
 
+const semitoneRatio = Math.pow(2, 1 / 12);
 const fallDelay = 0.25;
 const freeDelay = 0.5;
 
-async function fetchAudioData(buffers, key, path) {
-  const response = await fetch(path);
-  const audioData = await response.arrayBuffer();
-  const decodedData = await audioCtx.decodeAudioData(audioData);
-  buffers.set(key, decodedData);
+function fetchAudioData(buffers, key, path) {
+  const request = new XMLHttpRequest();
+  request.open('GET', path, true);
+  request.responseType = 'arraybuffer';
+  request.onload = () => {
+    const audioData = request.response;
+    audioCtx.decodeAudioData(audioData, decodedData => {
+      buffers.set(key, decodedData);
+    });
+  };
+  request.send();
 }
 
 export function setupAudio() {
-  fetchAudioData(pianoBuffers, 0, '/audio/piano/C7.mp3');
-  fetchAudioData(pianoBuffers, 1, '/audio/piano/C6.mp3');
-  fetchAudioData(pianoBuffers, 2, '/audio/piano/C5.mp3');
-  fetchAudioData(pianoBuffers, 3, '/audio/piano/C4.mp3');
-  fetchAudioData(pianoBuffers, 4, '/audio/piano/C3.mp3');
+  fetchAudioData(pianoBuffers, 0, '/audio/piano/C7v16.mp3');
+  fetchAudioData(pianoBuffers, 1, '/audio/piano/C6v12.mp3');
+  fetchAudioData(pianoBuffers, 2, '/audio/piano/C5v12.mp3');
+  fetchAudioData(pianoBuffers, 3, '/audio/piano/C4v8.mp3');
+  fetchAudioData(pianoBuffers, 4, '/audio/piano/C3v8.mp3');
 }
 
 export function start(note) {
@@ -30,11 +37,10 @@ export function start(note) {
   const gain = audioCtx.createGain();
   const key = Math.round(note.y / 12);
   const offset = 12 * key - note.y - 1;
-  const { currentTime } = audioCtx;
   source.buffer = pianoBuffers.get(key);
-  source.detune.setValueAtTime(100 * offset, currentTime);
+  source.playbackRate.value = Math.pow(semitoneRatio, offset);
   source.connect(gain);
-  gain.gain.setValueAtTime(0.5, currentTime);
+  gain.gain.value = 0.5;
   gain.connect(compressor);
   source.start();
   memory.set(note, { source, gain });
