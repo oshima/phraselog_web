@@ -23,7 +23,7 @@ export function groupBy(notes, keyfunc) {
 
 export function sleep(sec) {
   return new Promise(resolve => {
-    setTimeout(() => resolve(), 1000 * sec);
+    setTimeout(resolve, 1000 * sec);
   });
 }
 
