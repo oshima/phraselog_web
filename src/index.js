@@ -7,20 +7,22 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import rootReducer from '~/reducers';
 import Root from '~/containers';
+import GlobalStyle from '~/components/GlobalStyle';
 import { setupAuth } from '~/auth';
 import { setupAudio } from '~/audio';
-import { setCssBaseline } from '~/style';
 
 const store = createStore(rootReducer, applyMiddleware(thunk));
 
 const App = () => (
-  <Provider store={store}>
-    <Root />
-  </Provider>
+  <>
+    <Provider store={store}>
+      <Root />
+    </Provider>
+    <GlobalStyle />
+  </>
 );
 
 setupAuth(store.dispatch);
 setupAudio();
-setCssBaseline();
 
 render(<App />, document.getElementById('app'));
