@@ -86,7 +86,9 @@ class Toolbar extends React.Component {
     const { params } = this.props.match;
     const { signInUser } = this.props;
     const { signInUser: prevSignInUser } = prevProps;
-    if (params.id_string && typeof prevSignInUser === 'undefined' && signInUser)
+    const isSignedInJustNow =
+      typeof prevSignInUser === 'undefined' && signInUser;
+    if (params.id_string && isSignedInJustNow)
       this.props.requestFetchUserLikedPhrase(
         signInUser.id_string,
         params.id_string
