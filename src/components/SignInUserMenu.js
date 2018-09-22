@@ -8,6 +8,11 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemText from '@material-ui/core/ListItemText';
 import { signOut } from '~/auth';
 
+const AvatarContainer = styled.div`
+  padding: 8px;
+  cursor: pointer;
+`;
+
 const SmallAvatar = styled(Avatar)`
   &&& {
     width: 32px;
@@ -41,9 +46,9 @@ class SignInUserMenu extends React.Component {
 
     return (
       <>
-        <IconButton onClick={this.handleClick}>
+        <AvatarContainer onClick={this.handleClick}>
           <SmallAvatar src={user.photo_url} />
-        </IconButton>
+        </AvatarContainer>
         <Menu
           anchorEl={anchorEl}
           getContentAnchorEl={null}
