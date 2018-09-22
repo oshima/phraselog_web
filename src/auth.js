@@ -5,18 +5,14 @@ import { createUser } from '~/api';
 import { setSignInUser } from '~/actions/auth';
 import { showMessage } from '~/actions/notificator';
 
-let _signInUser;
+let firebaseUser;
 
 export function setupAuth(dispatch) {
   firebase.initializeApp(config);
-  firebase.auth().onAuthStateChanged(async _user => {
-    _signInUser = _user;
-    if (_user) {
-      const user = {
-        id_string: _user.uid,
-        display_name: _user.providerData[0].displayName,
-        photo_url: _user.providerData[0].photoURL
-      };
+  firebase.auth().onAuthStateChanged(async newFirebaseUser => {
+    firebaseUser = newFirebaseUser;
+    if (firebaseUser) {
+      const user = convertFirebaseUser(firebaseUser);
       if (await createUser(user)) {
         dispatch(setSignInUser(user));
       } else {
@@ -27,6 +23,15 @@ export function setupAuth(dispatch) {
       dispatch(setSignInUser(null));
     }
   });
+}
+
+// convert a firebase user object to this app's one
+function convertFirebaseUser(firebaseUser) {
+  return {
+    id_string: firebaseUser.uid,
+    display_name: firebaseUser.providerData[0].displayName,
+    photo_url: firebaseUser.providerData[0].photoURL
+  };
 }
 
 export function signInWithTwitter() {
@@ -44,5 +49,5 @@ export function signOut() {
 }
 
 export function getIdToken() {
-  return _signInUser && _signInUser.getIdToken();
+  return firebaseUser && firebaseUser.getIdToken();
 }
