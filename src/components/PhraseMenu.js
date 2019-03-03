@@ -25,6 +25,7 @@ function PhraseMenu({ phrase, onRequestDelete }) {
         children={<DotsVertical />}
       />
       <Menu
+        disableAutoFocusItem
         anchorEl={anchorEl}
         getContentAnchorEl={null}
         open={Boolean(anchorEl)}

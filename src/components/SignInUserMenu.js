@@ -29,6 +29,7 @@ function SignInUserMenu({ user }) {
         <SmallAvatar src={user.photo_url} />
       </AvatarContainer>
       <Menu
+        disableAutoFocusItem
         anchorEl={anchorEl}
         getContentAnchorEl={null}
         open={Boolean(anchorEl)}
