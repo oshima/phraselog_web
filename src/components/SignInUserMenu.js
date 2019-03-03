@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import IconButton from '@material-ui/core/IconButton';
@@ -20,57 +20,38 @@ const SmallAvatar = styled(Avatar)`
   }
 `;
 
-class SignInUserMenu extends React.Component {
-  state = { anchorEl: null };
+function SignInUserMenu({ user }) {
+  const [anchorEl, setAnchorEl] = useState(null);
 
-  handleClick = e => {
-    this.setState({ anchorEl: e.currentTarget });
-  };
-
-  handleClose = () => {
-    this.setState({ anchorEl: null });
-  };
-
-  handleClickProfile = () => {
-    this.handleClose();
-  };
-
-  handleClickSignOut = () => {
-    this.handleClose();
-    signOut();
-  };
-
-  render() {
-    const { user } = this.props;
-    const { anchorEl } = this.state;
-
-    return (
-      <>
-        <AvatarContainer onClick={this.handleClick}>
-          <SmallAvatar src={user.photo_url} />
-        </AvatarContainer>
-        <Menu
-          anchorEl={anchorEl}
-          getContentAnchorEl={null}
-          open={Boolean(anchorEl)}
-          onClose={this.handleClose}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-        >
-          <MenuItem
-            component={Link}
-            to={`/users/${user.id_string}`}
-            onClick={this.handleClickProfile}
-            children={<ListItemText>Profile</ListItemText>}
-          />
-          <MenuItem
-            onClick={this.handleClickSignOut}
-            children={<ListItemText>Sign out</ListItemText>}
-          />
-        </Menu>
-      </>
-    );
-  }
+  return (
+    <>
+      <AvatarContainer onClick={e => setAnchorEl(e.currentTarget)}>
+        <SmallAvatar src={user.photo_url} />
+      </AvatarContainer>
+      <Menu
+        anchorEl={anchorEl}
+        getContentAnchorEl={null}
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+      >
+        <MenuItem
+          component={Link}
+          to={`/users/${user.id_string}`}
+          onClick={() => setAnchorEl(null)}
+          children={<ListItemText>Profile</ListItemText>}
+        />
+        <MenuItem
+          onClick={() => {
+            setAnchorEl(null);
+            signOut();
+          }}
+          children={<ListItemText>Sign out</ListItemText>}
+        />
+      </Menu>
+    </>
+  );
 }
 
 export default SignInUserMenu;

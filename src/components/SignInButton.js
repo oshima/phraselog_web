@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import IconButton from '@material-ui/core/IconButton';
 import Dialog from '@material-ui/core/Dialog';
@@ -15,50 +15,38 @@ const Space = styled.div`
   height: 8px;
 `;
 
-class SignInButton extends React.Component {
-  state = { open: false };
+function SignInButton() {
+  const [open, setOpen] = useState(false);
 
-  handleClick = () => {
-    this.setState({ open: true });
-  };
-
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
-  render() {
-    const { open } = this.state;
-
-    return (
-      <>
-        <IconButton
-          color="primary"
-          onClick={this.handleClick}
-          children={<LoginVariant />}
-        />
-        <Dialog open={open} onClose={this.handleClose}>
-          <DialogTitle>
-            <Headline>Sign in</Headline>
-          </DialogTitle>
-          <DialogContent>
-            <ProviderButton
-              color="#1da1f2"
-              icon={<Twitter />}
-              onClick={signInWithTwitter}
-              children="with Twitter"
-            />
-            <Space />
-            <ProviderButton
-              color="#db4437"
-              icon={<Google />}
-              onClick={signInWithGoogle}
-              children="with Google"
-            />
-          </DialogContent>
-        </Dialog>
-      </>
-    );
-  }
+  return (
+    <>
+      <IconButton
+        color="primary"
+        onClick={() => setOpen(true)}
+        children={<LoginVariant />}
+      />
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>
+          <Headline>Sign in</Headline>
+        </DialogTitle>
+        <DialogContent>
+          <ProviderButton
+            color="#1da1f2"
+            icon={<Twitter />}
+            onClick={signInWithTwitter}
+            children="with Twitter"
+          />
+          <Space />
+          <ProviderButton
+            color="#db4437"
+            icon={<Google />}
+            onClick={signInWithGoogle}
+            children="with Google"
+          />
+        </DialogContent>
+      </Dialog>
+    </>
+  );
 }
 
 export default SignInButton;

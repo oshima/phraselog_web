@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
@@ -43,12 +43,6 @@ const MiniChart = styled.svg`
   display: block;
 `;
 
-const DenseButton = styled(Button)`
-  &&& {
-    min-width: 0;
-  }
-`;
-
 const StyledPlay = styled(Play)`
   &&& {
     margin-right: 4px;
@@ -61,136 +55,140 @@ const StyledStop = styled(Stop)`
   }
 `;
 
-class Player extends React.Component {
-  componentDidMount() {
-    const { params } = this.props.match;
-    const { signInUser, phrase } = this.props;
-    if (!phrase || params.id_string !== phrase.id_string) {
-      this.props.resetPlayer();
-      this.props.requestFetchPhrase(params.id_string);
-      if (signInUser)
-        this.props.requestFetchUserLikedPhrase(
+function Player(props) {
+  useEffect(
+    () => {
+      const { params } = props.match;
+      const { phrase } = props;
+      if (!phrase || params.id_string !== phrase.id_string) {
+        props.resetPlayer();
+        props.requestFetchPhrase(params.id_string);
+      }
+    },
+    [props.match]
+  );
+
+  useEffect(
+    () => {
+      const { params } = props.match;
+      const { signInUser } = props;
+      if (signInUser) {
+        props.requestFetchUserLikedPhrase(
           signInUser.id_string,
           params.id_string
         );
+      }
+    },
+    [props.signInUser]
+  );
+
+  useEffect(() => props.finishPlayNotes, []);
+
+  function handleClickPlayOrStop() {
+    const { playing } = props;
+    if (playing) {
+      props.finishPlayNotes();
+    } else {
+      props.startPlayNotes();
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const { params } = this.props.match;
-    const { signInUser } = this.props;
-    const { signInUser: prevSignInUser } = prevProps;
-    if (typeof prevSignInUser === 'undefined' && signInUser)
-      this.props.requestFetchUserLikedPhrase(
+  function handleClickHeart() {
+    const { params } = props.match;
+    const { signInUser, liked } = props;
+    if (liked) {
+      props.requestDeleteUserLikedPhrase(
         signInUser.id_string,
         params.id_string
       );
+    } else {
+      props.requestCreateUserLikedPhrase(signInUser.id_string);
+    }
   }
 
-  componentWillUnmount() {
-    if (this.props.playing) this.props.finishPlayNotes();
-  }
-
-  handleClickPlayOrStop = () => {
-    const { playing } = this.props;
-    if (playing) this.props.finishPlayNotes();
-    else this.props.startPlayNotes();
-  };
-
-  handleClickHeart = () => {
-    const { params } = this.props.match;
-    const { signInUser, liked } = this.props;
-    if (liked)
-      this.props.requestDeleteUserLikedPhrase(
-        signInUser.id_string,
-        params.id_string
-      );
-    else this.props.requestCreateUserLikedPhrase(signInUser.id_string);
-  };
-
-  isMyPhrase = () => {
-    const { params } = this.props.match;
-    const { signInUser, phrase } = this.props;
+  function isMyPhrase() {
+    const { params } = props.match;
+    const { signInUser, phrase } = props;
     if (params.id_string) {
-      if (signInUser && phrase)
+      if (signInUser && phrase) {
         return signInUser.id_string === phrase.user.id_string;
-      else return undefined;
+      } else {
+        return undefined;
+      }
     } else {
       return true;
     }
-  };
+  }
 
-  render() {
-    const { phrase, liked, x, minX, maxX, minY, maxY, playing } = this.props;
+  const width = Math.max(props.maxX - props.minX + 1, 0);
+  const height = Math.max(props.maxY - props.minY + 1, 0);
+  const isMyPhrase = isMyPhrase();
 
-    const width = Math.max(maxX - minX + 1, 0);
-    const height = Math.max(maxY - minY + 1, 0);
-    const isMyPhrase = this.isMyPhrase();
+  if (!props.phrase) return null;
 
-    if (!phrase) return null;
+  return (
+    <Root>
+      <Grid container spacing={8} justify="center">
+        <Grid item xs={10}>
+          <PhraseTitle>{props.phrase.title}</PhraseTitle>
+        </Grid>
+        <Grid item xs={10}>
+          <PhraseAuthor phrase={props.phrase} />
+        </Grid>
+        <Grid item xs={10}>
+          <PhraseMetadata phrase={props.phrase} />
+        </Grid>
 
-    return (
-      <Root>
-        <Grid container spacing={8} justify="center">
-          <Grid item xs={10}>
-            <PhraseTitle>{phrase.title}</PhraseTitle>
-          </Grid>
-          <Grid item xs={10}>
-            <PhraseAuthor phrase={phrase} />
-          </Grid>
-          <Grid item xs={10}>
-            <PhraseMetadata phrase={phrase} />
-          </Grid>
-          <Grid item xs={10}>
-            <MiniChartContainer>
-              <MiniChart
-                width={width * MINI_NOTE_SIZE}
-                height={height * MINI_NOTE_SIZE}
-                viewBox={[
-                  minX * MINI_NOTE_SIZE,
-                  minY * MINI_NOTE_SIZE,
-                  width * MINI_NOTE_SIZE,
-                  height * MINI_NOTE_SIZE
-                ].join(' ')}
-              >
-                {phrase.notes.map((note, idx) => (
-                  <MiniNote
-                    note={note}
-                    sounding={playing && liesOn(note, x)}
-                    key={`${note.x},${note.y}`}
-                  />
-                ))}
-              </MiniChart>
-            </MiniChartContainer>
-          </Grid>
-          <Grid item xs={isMyPhrase ? 10 : 7}>
+        <Grid item xs={10}>
+          <MiniChartContainer>
+            <MiniChart
+              width={width * MINI_NOTE_SIZE}
+              height={height * MINI_NOTE_SIZE}
+              viewBox={[
+                props.minX * MINI_NOTE_SIZE,
+                props.minY * MINI_NOTE_SIZE,
+                width * MINI_NOTE_SIZE,
+                height * MINI_NOTE_SIZE
+              ].join(' ')}
+            >
+              {props.phrase.notes.map((note, idx) => (
+                <MiniNote
+                  note={note}
+                  sounding={props.playing && liesOn(note, props.x)}
+                  key={`${note.x},${note.y}`}
+                />
+              ))}
+            </MiniChart>
+          </MiniChartContainer>
+        </Grid>
+
+        <Grid item xs={isMyPhrase ? 10 : 7}>
+          <Button
+            fullWidth
+            variant="outlined"
+            color="primary"
+            onClick={handleClickPlayOrStop}
+          >
+            {props.playing ? <StyledStop /> : <StyledPlay />}
+            {props.playing ? 'Stop' : 'Play'}
+          </Button>
+        </Grid>
+        {!isMyPhrase && (
+          <Grid item xs={3}>
             <Button
               fullWidth
               variant="outlined"
-              color="primary"
-              onClick={this.handleClickPlayOrStop}
+              color="secondary"
+              disabled={typeof isMyPhrase === 'undefined'}
+              onClick={handleClickHeart}
             >
-              {playing ? <StyledStop /> : <StyledPlay />}
-              {playing ? 'Stop' : 'Play'}
+              {props.liked ? <Heart /> : <HeartOutline />}
             </Button>
           </Grid>
-          {!isMyPhrase && (
-            <Grid item xs={3}>
-              <DenseButton
-                fullWidth
-                variant="outlined"
-                color="secondary"
-                disabled={typeof isMyPhrase === 'undefined'}
-                onClick={this.handleClickHeart}
-              >
-                {liked ? <Heart /> : <HeartOutline />}
-              </DenseButton>
-            </Grid>
-          )}
-        </Grid>
-      </Root>
-    );
-  }
+        )}
+      </Grid>
+    </Root>
+  );
 }
 
 export default withRouter(

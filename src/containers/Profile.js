@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
@@ -47,129 +47,109 @@ const SkeletonPhrase = styled.div`
   border: 1px dashed ${grey[300]};
 `;
 
-class Profile extends React.Component {
-  componentDidMount() {
-    const { params } = this.props.match;
-    const { user } = this.props;
-    if (user && params.id_string !== user.id_string) this.props.resetProfile();
-    this.props.requestFetchUser(params.id_string);
-    this.props.requestFetchUserPhrases(params.id_string);
-    this.props.requestFetchUserLikedPhrases(params.id_string);
+function Profile(props) {
+  useEffect(
+    () => {
+      const { params } = props.match;
+      const { user } = props;
+      if (user && params.id_string !== user.id_string) {
+        props.resetProfile();
+      }
+      props.requestFetchUser(params.id_string);
+      props.requestFetchUserPhrases(params.id_string);
+      props.requestFetchUserLikedPhrases(params.id_string);
+    },
+    [props.match]
+  );
+
+  function handleChange(e, value) {
+    props.setActiveTab(value);
   }
 
-  componentDidUpdate(prevProps) {
-    const { params } = this.props.match;
-    const { params: prevParams } = prevProps.match;
-    if (params.id_string !== prevParams.id_string) {
-      this.props.resetProfile();
-      this.props.requestFetchUser(params.id_string);
-      this.props.requestFetchUserPhrases(params.id_string);
-      this.props.requestFetchUserLikedPhrases(params.id_string);
+  function handleRequestDelete(phrase) {
+    props.requestDeletePhrase(phrase.id_string);
+  }
+
+  function isMyProfile() {
+    const { signInUser, user } = props;
+    if (signInUser && user) {
+      return signInUser.id_string === user.id_string;
+    } else {
+      return undefined;
     }
   }
 
-  handleChange = (e, value) => {
-    this.props.setActiveTab(value);
-  };
+  const isMyProfile = isMyProfile();
 
-  handleRequestDelete = phrase => {
-    this.props.requestDeletePhrase(phrase.id_string);
-  };
-
-  isMyProfile = () => {
-    const { signInUser, user } = this.props;
-    if (signInUser && user) return signInUser.id_string === user.id_string;
-    else return undefined;
-  };
-
-  render() {
-    const { user, userPhrases, userLikedPhrases, activeTab } = this.props;
-
-    const isMyProfile = this.isMyProfile();
-
-    return (
-      <Root>
-        <Grid container spacing={8} justify="center">
-          <Grid item xs={10}>
-            <UserRoot>
-              <Avatar src={user && user.photo_url} />
-              <UserName>{user && user.display_name}</UserName>
-            </UserRoot>
-          </Grid>
-          <Grid item xs={10}>
-            <TabsContainer>
-              <Tabs
-                value={activeTab}
-                indicatorColor={activeTab === 0 ? 'primary' : 'secondary'}
-                textColor={activeTab === 0 ? 'primary' : 'secondary'}
-                onChange={this.handleChange}
-              >
-                <Tab
-                  label={
-                    <>
-                      <Hidden mdUp children={<Pencil />} />
-                      <Hidden smDown children={'Phrases'} />
-                    </>
-                  }
-                />
-                <Tab
-                  label={
-                    <>
-                      <Hidden mdUp children={<Heart />} />
-                      <Hidden smDown children={'Liked'} />
-                    </>
-                  }
-                />
-              </Tabs>
-            </TabsContainer>
-          </Grid>
-          <Grid item xs={10}>
-            <Grid container spacing={8}>
-              {activeTab === 0 &&
-                userPhrases.map(phrase => (
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                    lg={4}
-                    xl={3}
-                    key={phrase.id_string}
-                  >
-                    <Phrase
-                      phrase={phrase}
-                      disableUserLink
-                      disableMenu={!isMyProfile}
-                      onRequestDelete={this.handleRequestDelete}
-                    />
-                  </Grid>
-                ))}
-              {activeTab === 1 &&
-                userLikedPhrases.map(phrase => (
-                  <Grid
-                    item
-                    xs={12}
-                    md={6}
-                    lg={4}
-                    xl={3}
-                    key={phrase.id_string}
-                  >
-                    <Phrase phrase={phrase} disableMenu />
-                  </Grid>
-                ))}
-              {((activeTab === 0 && userPhrases.length === 0) ||
-                (activeTab === 1 && userLikedPhrases.length === 0)) && (
-                <Grid item xs={12} md={6} lg={4} xl={3}>
-                  <SkeletonPhrase>
-                    <Title>No phrases</Title>
-                  </SkeletonPhrase>
+  return (
+    <Root>
+      <Grid container spacing={8} justify="center">
+        <Grid item xs={10}>
+          <UserRoot>
+            <Avatar src={props.user && props.user.photo_url} />
+            <UserName>{props.user && props.user.display_name}</UserName>
+          </UserRoot>
+        </Grid>
+        <Grid item xs={10}>
+          <TabsContainer>
+            <Tabs
+              value={props.activeTab}
+              indicatorColor={props.activeTab === 0 ? 'primary' : 'secondary'}
+              textColor={props.activeTab === 0 ? 'primary' : 'secondary'}
+              onChange={handleChange}
+            >
+              <Tab
+                label={
+                  <>
+                    <Hidden mdUp children={<Pencil />} />
+                    <Hidden smDown children={'Phrases'} />
+                  </>
+                }
+              />
+              <Tab
+                label={
+                  <>
+                    <Hidden mdUp children={<Heart />} />
+                    <Hidden smDown children={'Liked'} />
+                  </>
+                }
+              />
+            </Tabs>
+          </TabsContainer>
+        </Grid>
+        <Grid item xs={10}>
+          <Grid container spacing={8}>
+            {props.activeTab === 0 &&
+              props.userPhrases.map(phrase => (
+                <Grid item xs={12} md={6} lg={4} xl={3} key={phrase.id_string}>
+                  <Phrase
+                    phrase={phrase}
+                    disableUserLink
+                    disableMenu={!isMyProfile}
+                    onRequestDelete={handleRequestDelete}
+                  />
                 </Grid>
-              )}
-            </Grid>
+              ))}
+            {props.activeTab === 1 &&
+              props.userLikedPhrases.map(phrase => (
+                <Grid item xs={12} md={6} lg={4} xl={3} key={phrase.id_string}>
+                  <Phrase phrase={phrase} disableMenu />
+                </Grid>
+              ))}
+            {((props.activeTab === 0 && props.userPhrases.length === 0) ||
+              (props.activeTab === 1 &&
+                props.userLikedPhrases.length === 0)) && (
+              <Grid item xs={12} md={6} lg={4} xl={3}>
+                <SkeletonPhrase>
+                  <Title>No phrases</Title>
+                </SkeletonPhrase>
+              </Grid>
+            )}
           </Grid>
         </Grid>
-      </Root>
-    );
-  }
+      </Grid>
+    </Root>
+  );
 }
 
 export default withRouter(

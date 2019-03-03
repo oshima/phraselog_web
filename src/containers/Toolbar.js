@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import styled from 'styled-components';
@@ -63,94 +63,104 @@ const Space = styled.span`
   flex: 1;
 `;
 
-class Toolbar extends React.Component {
-  componentDidMount() {
-    const { params } = this.props.match;
-    const { signInUser, phrase } = this.props;
-    if (params.id_string) {
-      if (!phrase || params.id_string !== phrase.id_string) {
-        this.props.resetEditor();
-        this.props.requestFetchPhrase(params.id_string);
-        if (signInUser)
-          this.props.requestFetchUserLikedPhrase(
-            signInUser.id_string,
-            params.id_string
-          );
+function Toolbar(props) {
+  useEffect(
+    () => {
+      const { params } = props.match;
+      const { phrase } = props;
+      if (params.id_string) {
+        if (!phrase || params.id_string !== phrase.id_string) {
+          props.resetEditor();
+          props.requestFetchPhrase(params.id_string);
+        }
+      } else {
+        if (phrase) props.resetEditor();
       }
-    } else {
-      if (phrase) this.props.resetEditor();
+    },
+    [props.match]
+  );
+
+  useEffect(
+    () => {
+      const { params } = props.match;
+      const { signInUser } = props;
+      if (params.id_string && signInUser) {
+        props.requestFetchUserLikedPhrase(
+          signInUser.id_string,
+          params.id_string
+        );
+      }
+    },
+    [props.signInUser]
+  );
+
+  function handleMouseEnter() {
+    props.setHovering(true);
+  }
+
+  function handleMouseLeave() {
+    props.setHovering(false);
+  }
+
+  function handleChangeInput(e) {
+    const title = e.currentTarget.value;
+    if (title.length <= TITLE_LENGTH_MAX) {
+      props.setTitle(title);
     }
   }
 
-  componentDidUpdate(prevProps) {
-    const { params } = this.props.match;
-    const { signInUser } = this.props;
-    const { signInUser: prevSignInUser } = prevProps;
-    const isSignedInJustNow =
-      typeof prevSignInUser === 'undefined' && signInUser;
-    if (params.id_string && isSignedInJustNow)
-      this.props.requestFetchUserLikedPhrase(
-        signInUser.id_string,
-        params.id_string
-      );
+  function handleClickChevronLeft() {
+    const { interval } = props;
+    if (interval > INTERVAL_MIN) {
+      props.setInterval(Math.round((interval - 0.01) * 100) / 100);
+    }
   }
 
-  handleMouseEnter = () => {
-    this.props.setHovering(true);
-  };
+  function handleClickChevronRight() {
+    const { interval } = props;
+    if (interval < INTERVAL_MAX) {
+      props.setInterval(Math.round((interval + 0.01) * 100) / 100);
+    }
+  }
 
-  handleMouseLeave = () => {
-    this.props.setHovering(false);
-  };
+  function handleClickContentSave() {
+    const { params } = props.match;
+    if (params.id_string) {
+      props.requestUpdatePhrase(params.id_string);
+    } else {
+      props.requestCreatePhrase();
+    }
+  }
 
-  handleChangeInput = e => {
-    const title = e.currentTarget.value;
-    if (title.length <= TITLE_LENGTH_MAX) this.props.setTitle(title);
-  };
-
-  handleClickChevronLeft = () => {
-    const { interval } = this.props;
-    if (interval > INTERVAL_MIN)
-      this.props.setInterval(Math.round((interval - 0.01) * 100) / 100);
-  };
-
-  handleClickChevronRight = () => {
-    const { interval } = this.props;
-    if (interval < INTERVAL_MAX)
-      this.props.setInterval(Math.round((interval + 0.01) * 100) / 100);
-  };
-
-  handleClickContentSave = () => {
-    const { params } = this.props.match;
-    if (params.id_string) this.props.requestUpdatePhrase(params.id_string);
-    else this.props.requestCreatePhrase();
-  };
-
-  handleClickHeart = () => {
-    const { params } = this.props.match;
-    const { signInUser, liked } = this.props;
-    if (liked)
-      this.props.requestDeleteUserLikedPhrase(
+  function handleClickHeart() {
+    const { params } = props.match;
+    const { signInUser, liked } = props;
+    if (liked) {
+      props.requestDeleteUserLikedPhrase(
         signInUser.id_string,
         params.id_string
       );
-    else this.props.requestCreateUserLikedPhrase(signInUser.id_string);
-  };
+    } else {
+      props.requestCreateUserLikedPhrase(signInUser.id_string);
+    }
+  }
 
-  isMyPhrase = () => {
-    const { params } = this.props.match;
-    const { signInUser, phrase } = this.props;
+  function isMyPhrase() {
+    const { params } = props.match;
+    const { signInUser, phrase } = props;
     if (params.id_string) {
-      if (signInUser && phrase)
+      if (signInUser && phrase) {
         return signInUser.id_string === phrase.user.id_string;
-      else return undefined;
+      } else {
+        return undefined;
+      }
     } else {
       return true;
     }
-  };
+  }
 
-  canSave = () => {
-    const { phrase, title, interval, notes, pointer } = this.props;
+  function canSave() {
+    const { phrase, title, interval, notes, pointer } = props;
     const isBlank = title === '' || notes.length === 0;
     if (phrase) {
       const isChanged =
@@ -159,103 +169,88 @@ class Toolbar extends React.Component {
     } else {
       return !isBlank;
     }
-  };
+  }
 
-  render() {
-    const {
-      signInUser,
-      phrase,
-      title,
-      interval,
-      liked,
-      notes,
-      operations,
-      pointer,
-      playing,
-      saving,
-      clearNotes,
-      undoOperation,
-      redoOperation
-    } = this.props;
+  const isMyPhrase = isMyPhrase();
 
-    const isMyPhrase = this.isMyPhrase();
+  return (
+    <Root onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+      <Link to="/">
+        <Logo />
+      </Link>
 
-    return (
-      <Root
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-      >
-        <Link to="/">
-          <Logo />
-        </Link>
-        <TitleContainer>
-          {isMyPhrase ? (
-            <TitleInput value={title} onChange={this.handleChangeInput} />
-          ) : (
-            <Title title={title}>{title}</Title>
-          )}
-        </TitleContainer>
-        <Space />
-        <Hidden xsDown>
-          <IconButton
-            disabled={interval <= 0.1}
-            onClick={this.handleClickChevronLeft}
-            children={<ChevronLeft />}
-          />
-          <Hidden smDown>
-            <IntervalDisplay value={interval} />
-          </Hidden>
-          <IconButton
-            disabled={interval >= 1}
-            onClick={this.handleClickChevronRight}
-            children={<ChevronRight />}
-          />
-          <IconButton
-            disabled={playing || pointer === 0}
-            onClick={undoOperation}
-            children={<Undo />}
-          />
-          <IconButton
-            disabled={playing || pointer === operations.length}
-            onClick={redoOperation}
-            children={<Redo />}
-          />
-          <IconButton
-            disabled={playing || notes.length === 0}
-            onClick={clearNotes}
-            children={<Delete />}
-          />
-        </Hidden>
+      <TitleContainer>
         {isMyPhrase ? (
-          saving ? (
-            <Loading />
-          ) : (
-            <IconButton
-              color="primary"
-              disabled={!this.canSave()}
-              onClick={this.handleClickContentSave}
-              children={<ContentSave />}
-            />
-          )
+          <TitleInput value={props.title} onChange={handleChangeInput} />
         ) : (
-          <IconButton
-            color="secondary"
-            disabled={typeof isMyPhrase === 'undefined'}
-            onClick={this.handleClickHeart}
-            children={liked ? <Heart /> : <HeartOutline />}
-          />
+          <Title title={props.title}>{props.title}</Title>
         )}
-        {signInUser ? (
-          <SignInUserMenu user={signInUser} />
-        ) : typeof signInUser === 'undefined' ? (
+      </TitleContainer>
+
+      <Space />
+
+      <Hidden xsDown>
+        <IconButton
+          disabled={props.interval <= 0.1}
+          onClick={handleClickChevronLeft}
+          children={<ChevronLeft />}
+        />
+        <Hidden smDown>
+          <IntervalDisplay value={props.interval} />
+        </Hidden>
+        <IconButton
+          disabled={props.interval >= 1}
+          onClick={handleClickChevronRight}
+          children={<ChevronRight />}
+        />
+
+        <IconButton
+          disabled={props.playing || props.pointer === 0}
+          onClick={props.undoOperation}
+          children={<Undo />}
+        />
+        <IconButton
+          disabled={props.playing || props.pointer === props.operations.length}
+          onClick={props.redoOperation}
+          children={<Redo />}
+        />
+        <IconButton
+          disabled={props.playing || props.notes.length === 0}
+          onClick={props.clearNotes}
+          children={<Delete />}
+        />
+      </Hidden>
+
+      {isMyPhrase ? (
+        props.saving ? (
           <Loading />
         ) : (
-          <SignInButton />
-        )}
-        {phrase && <MetadataDisplay phrase={phrase} />}
-      </Root>
-    );
-  }
+          <IconButton
+            color="primary"
+            disabled={!canSave()}
+            onClick={handleClickContentSave}
+            children={<ContentSave />}
+          />
+        )
+      ) : (
+        <IconButton
+          color="secondary"
+          disabled={typeof isMyPhrase === 'undefined'}
+          onClick={handleClickHeart}
+          children={props.liked ? <Heart /> : <HeartOutline />}
+        />
+      )}
+
+      {props.signInUser ? (
+        <SignInUserMenu user={props.signInUser} />
+      ) : typeof props.signInUser === 'undefined' ? (
+        <Loading />
+      ) : (
+        <SignInButton />
+      )}
+      {props.phrase && <MetadataDisplay phrase={props.phrase} />}
+    </Root>
+  );
 }
 
 export default withRouter(

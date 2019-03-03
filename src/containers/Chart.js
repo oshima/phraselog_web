@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import Note from '~/components/Note';
@@ -16,78 +16,74 @@ const Root = styled.svg`
   display: block;
 `;
 
-class Chart extends React.PureComponent {
-  componentWillUnmount() {
-    if (this.props.playing) this.props.finishPlayNotes();
+function Chart(props) {
+  useEffect(() => props.finishPlayNotes, []);
+
+  function handleMouseDown(e) {
+    if (props.drawing) {
+      props.finishDrawNote();
+    } else if (props.playing) {
+      props.finishPlayNotes();
+    } else {
+      props.startDrawNote(getCursor(e));
+    }
   }
 
-  handleMouseDown = e => {
-    if (this.props.drawing) this.props.finishDrawNote();
-    else if (this.props.playing) this.props.finishPlayNotes();
-    else this.props.startDrawNote(this.getCursor(e));
-  };
-
-  handleMouseMove = e => {
-    if (this.props.drawing) {
-      const cursor = this.getCursor(e);
-      if (!equals(cursor, this.props.cursor))
-        this.props.continueDrawNote(cursor);
+  function handleMouseMove(e) {
+    if (props.drawing) {
+      const cursor = getCursor(e);
+      if (!equals(cursor, props.cursor)) props.continueDrawNote(cursor);
     }
-  };
+  }
 
-  handleMouseUp = e => {
-    if (this.props.drawing) this.props.finishDrawNote();
-  };
+  function handleMouseUp(e) {
+    if (props.drawing) props.finishDrawNote();
+  }
 
-  handleMouseDownNote = e => {
-    if (!this.props.playing) {
+  function handleMouseDownNote(e) {
+    if (!props.playing) {
       e.stopPropagation();
       const idx = e.currentTarget.dataset.idx;
-      this.props.eraseNote(this.props.notes[idx]);
+      props.eraseNote(props.notes[idx]);
     }
-  };
+  }
 
-  getCursor = e => {
+  function getCursor(e) {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / NOTE_SIZE) | 0;
     const y = ((e.clientY - rect.top) / NOTE_SIZE) | 0;
     return { x, y };
-  };
-
-  render() {
-    const { x, width, note, notes, drawing, playing } = this.props;
-
-    return (
-      <Root
-        width={width * NOTE_SIZE}
-        height={CHART_HEIGHT * NOTE_SIZE}
-        onMouseDown={this.handleMouseDown}
-        onMouseMove={this.handleMouseMove}
-        onMouseUp={this.handleMouseUp}
-      >
-        {notes.map((note, idx) => (
-          <Note
-            note={note}
-            sounding={playing && liesOn(note, x)}
-            onMouseDown={this.handleMouseDownNote}
-            key={`${note.x},${note.y}`}
-            data-idx={idx}
-          />
-        ))}
-        {drawing &&
-          note && (
-            <Note
-              note={note}
-              drawing
-              error={
-                notes.length >= NOTES_COUNT_MAX ||
-                notes.some(n => overlapsWith(n, note))
-              }
-            />
-          )}
-      </Root>
-    );
   }
+
+  return (
+    <Root
+      width={props.width * NOTE_SIZE}
+      height={CHART_HEIGHT * NOTE_SIZE}
+      onMouseDown={handleMouseDown}
+      onMouseMove={handleMouseMove}
+      onMouseUp={handleMouseUp}
+    >
+      {props.notes.map((note, idx) => (
+        <Note
+          note={note}
+          sounding={props.playing && liesOn(note, props.x)}
+          onMouseDown={handleMouseDownNote}
+          key={`${note.x},${note.y}`}
+          data-idx={idx}
+        />
+      ))}
+      {props.drawing && props.note && (
+        <Note
+          note={props.note}
+          drawing
+          error={
+            props.notes.length >= NOTES_COUNT_MAX ||
+            props.notes.some(note => overlapsWith(note, props.note))
+          }
+        />
+      )}
+    </Root>
+  );
 }
 
 export default connect(

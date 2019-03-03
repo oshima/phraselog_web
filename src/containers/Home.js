@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import styled from 'styled-components';
 import grey from '@material-ui/core/colors/grey';
@@ -16,33 +16,29 @@ const StyledHeadline = styled(Headline)`
   padding: 8px 0;
 `;
 
-class Home extends React.Component {
-  componentDidMount() {
-    this.props.requestFetchRecentPhrases();
-  }
+function Home(props) {
+  useEffect(() => {
+    props.requestFetchRecentPhrases();
+  }, []);
 
-  render() {
-    const { recentPhrases } = this.props;
-
-    return (
-      <Root>
-        <Grid container spacing={8} justify="center">
-          <Grid item xs={10}>
-            <StyledHeadline>Recent</StyledHeadline>
-          </Grid>
-          <Grid item xs={10}>
-            <Grid container spacing={8}>
-              {recentPhrases.map(phrase => (
-                <Grid item xs={12} md={6} lg={4} xl={3} key={phrase.id_string}>
-                  <Phrase phrase={phrase} disableMenu />
-                </Grid>
-              ))}
-            </Grid>
+  return (
+    <Root>
+      <Grid container spacing={8} justify="center">
+        <Grid item xs={10}>
+          <StyledHeadline>Recent</StyledHeadline>
+        </Grid>
+        <Grid item xs={10}>
+          <Grid container spacing={8}>
+            {props.recentPhrases.map(phrase => (
+              <Grid item xs={12} md={6} lg={4} xl={3} key={phrase.id_string}>
+                <Phrase phrase={phrase} disableMenu />
+              </Grid>
+            ))}
           </Grid>
         </Grid>
-      </Root>
-    );
-  }
+      </Grid>
+    </Root>
+  );
 }
 
 export default connect(

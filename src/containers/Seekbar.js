@@ -17,44 +17,40 @@ const Root = styled.svg`
   transition: opacity 150ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
 `;
 
-class Seekbar extends React.PureComponent {
-  handleMouseEnter = () => {
-    this.props.setHovering(true);
-  };
+function Seekbar(props) {
+  function handleMouseEnter() {
+    props.setHovering(true);
+  }
 
-  handleMouseLeave = () => {
-    this.props.setHovering(false);
-  };
+  function handleMouseLeave() {
+    props.setHovering(false);
+  }
 
-  handleMouseDown = e => {
-    if (!this.props.drawing) {
-      this.props.setX(this.getX(e));
-      if (!this.props.playing) this.props.startPlayNotes();
+  function handleMouseDown(e) {
+    if (!props.drawing) {
+      props.setX(getX(e));
+      if (!props.playing) props.startPlayNotes();
     }
-  };
+  }
 
-  getX = e => {
+  function getX(e) {
     const rect = e.currentTarget.getBoundingClientRect();
     const x = ((e.clientX - rect.left) / NOTE_SIZE) | 0;
     return x;
-  };
-
-  render() {
-    const { x, width, hovering } = this.props;
-
-    return (
-      <Root
-        width={width * NOTE_SIZE}
-        height={NOTE_SIZE}
-        hovering={hovering}
-        onMouseEnter={this.handleMouseEnter}
-        onMouseLeave={this.handleMouseLeave}
-        onMouseDown={this.handleMouseDown}
-      >
-        <Progress x={x} />
-      </Root>
-    );
   }
+
+  return (
+    <Root
+      width={props.width * NOTE_SIZE}
+      height={NOTE_SIZE}
+      hovering={props.hovering}
+      onMouseEnter={handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      onMouseDown={handleMouseDown}
+    >
+      <Progress x={props.x} />
+    </Root>
+  );
 }
 
 export default connect(

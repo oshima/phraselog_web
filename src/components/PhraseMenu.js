@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
@@ -14,76 +14,57 @@ import DotsVertical from 'mdi-material-ui/DotsVertical';
 import Headline from '~/components/Headline';
 import Title from '~/components/Title';
 
-class PhraseMenu extends React.Component {
-  state = { anchorEl: null, open: false };
+function PhraseMenu({ phrase, onRequestDelete }) {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [open, setOpen] = useState(false);
 
-  handleClickButton = e => {
-    this.setState({ anchorEl: e.currentTarget });
-  };
-
-  handleClickDelete = () => {
-    this.setState({ anchorEl: null, open: true });
-  };
-
-  handleCloseMenu = () => {
-    this.setState({ anchorEl: null });
-  };
-
-  handleCloseDialog = () => {
-    this.setState({ open: false });
-  };
-
-  handleRequestDelete = () => {
-    this.setState({ open: false });
-    this.props.onRequestDelete(this.props.phrase);
-  };
-
-  render() {
-    const { phrase } = this.props;
-    const { anchorEl, open } = this.state;
-
-    return (
-      <>
-        <IconButton
-          onClick={this.handleClickButton}
-          children={<DotsVertical />}
+  return (
+    <>
+      <IconButton
+        onClick={e => setAnchorEl(e.currentTarget)}
+        children={<DotsVertical />}
+      />
+      <Menu
+        anchorEl={anchorEl}
+        getContentAnchorEl={null}
+        open={Boolean(anchorEl)}
+        onClose={() => setAnchorEl(null)}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+        transformOrigin={{ vertical: 'top', horizontal: 'left' }}
+      >
+        <MenuItem
+          onClick={() => {
+            setAnchorEl(null);
+            setOpen(true);
+          }}
+          children={<ListItemText>Delete</ListItemText>}
         />
-        <Menu
-          anchorEl={anchorEl}
-          getContentAnchorEl={null}
-          open={Boolean(anchorEl)}
-          onClose={this.handleCloseMenu}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
-          transformOrigin={{ vertical: 'top', horizontal: 'left' }}
-        >
-          <MenuItem
-            onClick={this.handleClickDelete}
-            children={<ListItemText>Delete</ListItemText>}
+      </Menu>
+      <Dialog open={open} onClose={() => setOpen(false)}>
+        <DialogTitle>
+          <Headline>Do you really want to delete?</Headline>
+        </DialogTitle>
+        <DialogContent>
+          <Title>"{phrase.title}"</Title>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            color="primary"
+            onClick={() => setOpen(false)}
+            children={'Cancel'}
           />
-        </Menu>
-        <Dialog open={open} onClose={this.handleCloseDialog}>
-          <DialogTitle>
-            <Headline>Do you really want to delete?</Headline>
-          </DialogTitle>
-          <DialogContent>
-            <Title>"{phrase.title}"</Title>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              color="primary"
-              onClick={this.handleCloseDialog}
-              children={'Cancel'}
-            />
-            <Button
-              color="secondary"
-              onClick={this.handleRequestDelete}
-              children={'Delete'}
-            />
-          </DialogActions>
-        </Dialog>
-      </>
-    );
-  }
+          <Button
+            color="secondary"
+            onClick={() => {
+              setOpen(false);
+              onRequestDelete(phrase);
+            }}
+            children={'Delete'}
+          />
+        </DialogActions>
+      </Dialog>
+    </>
+  );
 }
 
 export default PhraseMenu;
